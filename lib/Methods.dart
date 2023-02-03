@@ -1,7 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutchat/LoginScreen.dart';
-import 'package:flutchat/CreateAccount.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 Future<User?> createAccount(String name, String email, String password) async {

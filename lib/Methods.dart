@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutchat/LoginScreen.dart';
+import 'package:flutter/material.dart';
 
 Future<User?> createAccount(String name, String email, String password) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -12,8 +14,10 @@ Future<User?> createAccount(String name, String email, String password) async {
     } else {
       print("account not created");
     }
+    return userCredential.user;
   } catch (e) {
     print(e);
+    return null;
   }
 }
 
@@ -36,5 +40,16 @@ Future<User?> logIn(String email, String password) async {
   } catch (e) {
     print(e);
     return null;
+  }
+}
+
+Future logOut(BuildContext context) async {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  try {
+    await _auth.signOut();
+    Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+  } catch (e) {
+    print(e);
   }
 }

@@ -1,4 +1,4 @@
-
+import 'package:flutchat/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutchat/Methods.dart';
 
@@ -22,7 +22,7 @@ class _CreateAccountState extends State<CreateAccount> {
           ? Center(
               child: Container(
                 height: size.height / 20,
-                width: size.width / 20,
+                width: size.height / 20,
                 child: CircularProgressIndicator(),
               ),
             )
@@ -76,7 +76,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     child: Container(
                       width: size.width,
                       alignment: Alignment.center,
-                      child: field(size, "email", Icons.account_box, _email),
+                      child: field(size, "Email", Icons.account_box, _email),
                     ),
                   ),
                   Padding(
@@ -84,7 +84,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     child: Container(
                       width: size.width,
                       alignment: Alignment.center,
-                      child: field(size, "password", Icons.lock, _password),
+                      child: field(size, "Password", Icons.lock, _password),
                     ),
                   ),
                   SizedBox(
@@ -120,14 +120,19 @@ class _CreateAccountState extends State<CreateAccount> {
           setState(() {
             isLoading = true;
           });
-
           createAccount(_name.text, _email.text, _password.text).then((user) {
             if (user != null) {
               setState(() {
                 isLoading = false;
               });
-
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => HomeScreen()));
               print("Account Created Successfully");
+            } else {
+              print("Creation of account failed");
+              setState(() {
+                isLoading = false;
+              });
             }
           });
         } else {

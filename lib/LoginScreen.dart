@@ -32,12 +32,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: size.height / 20,
                   ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    width: size.width / 1.2,
-                    child: IconButton(
-                        icon: Icon(Icons.arrow_back_ios), onPressed: () {}),
-                  ),
+                  // Container(
+                  //   alignment: Alignment.centerLeft,
+                  //   width: size.width / 1.2,
+                  //   child: IconButton(
+                  //       icon: Icon(Icons.arrow_back_ios), onPressed: () {}),
+                  // ),
                   SizedBox(
                     height: size.height / 50,
                   ),
@@ -66,14 +66,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: size.width,
                     alignment: Alignment.center,
-                    child: field(size, "Email", Icons.account_box, _email),
+                    child:
+                        field(size, "Email", Icons.account_box, _email, false),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 18.0),
                     child: Container(
                       width: size.width,
                       alignment: Alignment.center,
-                      child: field(size, "Password", Icons.lock, _password),
+                      child:
+                          field(size, "Password", Icons.lock, _password, true),
                     ),
                   ),
                   SizedBox(
@@ -146,12 +148,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget field(
-      Size size, String hintText, IconData icon, TextEditingController cont) {
+  Widget field(Size size, String hintText, IconData icon,
+      TextEditingController cont, bool obstruct) {
     return Container(
       height: size.height / 15,
       width: size.width / 1.3,
       child: TextField(
+        obscureText: obstruct,
         controller: cont,
         decoration: InputDecoration(
           prefixIcon: Icon(icon),

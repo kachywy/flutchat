@@ -32,12 +32,12 @@ class _CreateAccountState extends State<CreateAccount> {
                   SizedBox(
                     height: size.height / 20,
                   ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    width: size.width / 1.2,
-                    child: IconButton(
-                        icon: Icon(Icons.arrow_back_ios), onPressed: () {}),
-                  ),
+                  // Container(
+                  //   alignment: Alignment.centerLeft,
+                  //   width: size.width / 1.2,
+                  //   child: IconButton(
+                  //       icon: Icon(Icons.arrow_back_ios), onPressed: () {}),
+                  // ),
                   SizedBox(
                     height: size.height / 50,
                   ),
@@ -68,7 +68,8 @@ class _CreateAccountState extends State<CreateAccount> {
                     child: Container(
                       width: size.width,
                       alignment: Alignment.center,
-                      child: field(size, "Name", Icons.account_box, _name),
+                      child:
+                          field(size, "Name", Icons.account_box, _name, true),
                     ),
                   ),
                   Padding(
@@ -76,7 +77,8 @@ class _CreateAccountState extends State<CreateAccount> {
                     child: Container(
                       width: size.width,
                       alignment: Alignment.center,
-                      child: field(size, "Email", Icons.account_box, _email),
+                      child:
+                          field(size, "Email", Icons.account_box, _email, true),
                     ),
                   ),
                   Padding(
@@ -84,7 +86,8 @@ class _CreateAccountState extends State<CreateAccount> {
                     child: Container(
                       width: size.width,
                       alignment: Alignment.center,
-                      child: field(size, "Password", Icons.lock, _password),
+                      child:
+                          field(size, "Password", Icons.lock, _password, true),
                     ),
                   ),
                   SizedBox(
@@ -159,12 +162,13 @@ class _CreateAccountState extends State<CreateAccount> {
     );
   }
 
-  Widget field(
-      Size size, String hintText, IconData icon, TextEditingController cont) {
+  Widget field(Size size, String hintText, IconData icon,
+      TextEditingController cont, bool obscure) {
     return Container(
       height: size.height / 15,
       width: size.width / 1.3,
       child: TextField(
+        obscureText: obscure,
         controller: cont,
         decoration: InputDecoration(
           prefixIcon: Icon(icon),

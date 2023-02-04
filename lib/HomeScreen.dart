@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         userMap = value.docs[0].data();
         isLoading = false;
       });
+   
       print(userMap);
     });
   }
@@ -44,14 +45,17 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text("Home Screen"),
         actions: [
-          IconButton(icon: Icon(Icons.logout), onPressed: () => logOut(context))
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () => logOut(context),
+          )
         ],
       ),
       body: isLoading
           ? Center(
               child: Container(
                 height: size.height / 20,
-                width: size.width / 20,
+                width: size.height / 20,
                 child: CircularProgressIndicator(),
               ),
             )
@@ -107,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Hello " + user.email!),
+                        Text("Signed as " + user.email!),
                       ]),
                 ),
               ],

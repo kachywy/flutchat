@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'Methods.dart';
+import '../Authenticate/Methods.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         userMap = value.docs[0].data();
         isLoading = false;
       });
-   
+
       print(userMap);
     });
   }
@@ -44,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Home Screen"),
+        
         actions: [
           IconButton(
             icon: Icon(Icons.logout),

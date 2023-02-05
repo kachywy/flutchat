@@ -1,14 +1,14 @@
-import 'package:flutchat/HomeScreen.dart';
+import 'package:flutchat/Screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutchat/Methods.dart';
+import 'package:flutchat/Authenticate/CreateAccount.dart';
+import 'package:flutchat/Authenticate/Methods.dart';
 
-class CreateAccount extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  _CreateAccountState createState() => _CreateAccountState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _CreateAccountState extends State<CreateAccount> {
-  final TextEditingController _name = TextEditingController();
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   bool isLoading = false;
@@ -52,7 +52,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   Container(
                     width: size.width / 1.3,
                     child: Text(
-                      "Create Account to Continue",
+                      "Sign In to Continue",
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 25,
@@ -63,23 +63,11 @@ class _CreateAccountState extends State<CreateAccount> {
                   SizedBox(
                     height: size.height / 10,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 18.0),
-                    child: Container(
-                      width: size.width,
-                      alignment: Alignment.center,
-                      child:
-                          field(size, "Name", Icons.account_box, _name, true),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: size.width,
-                      alignment: Alignment.center,
-                      child:
-                          field(size, "Email", Icons.account_box, _email, true),
-                    ),
+                  Container(
+                    width: size.width,
+                    alignment: Alignment.center,
+                    child:
+                        field(size, "Email", Icons.account_box, _email, false),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 18.0),
@@ -94,17 +82,18 @@ class _CreateAccountState extends State<CreateAccount> {
                     height: size.height / 10,
                   ),
                   customButton(size),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
+                  SizedBox(
+                    height: size.height / 8,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => CreateAccount())),
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   )
@@ -117,29 +106,26 @@ class _CreateAccountState extends State<CreateAccount> {
   Widget customButton(Size size) {
     return GestureDetector(
       onTap: () {
-        if (_name.text.isNotEmpty &&
-            _email.text.isNotEmpty &&
-            _password.text.isNotEmpty) {
+        if (_email.text.isNotEmpty && _password.text.isNotEmpty) {
           setState(() {
             isLoading = true;
           });
-          createAccount(_name.text, _email.text, _password.text).then((user) {
+
+          logIn(_email.text, _password.text).then((user) {
             if (user != null) {
+              print("Login Successful");
               setState(() {
                 isLoading = false;
               });
               Navigator.push(
                   context, MaterialPageRoute(builder: (_) => HomeScreen()));
-              print("Account Created Successfully");
             } else {
-              print("Creation of account failed");
+              print("Login failed");
               setState(() {
                 isLoading = false;
               });
             }
           });
-        } else {
-          print("Please enter Fields");
         }
       },
       child: Container(
@@ -151,7 +137,7 @@ class _CreateAccountState extends State<CreateAccount> {
         ),
         alignment: Alignment.center,
         child: Text(
-          "Create Account",
+          "Login",
           style: TextStyle(
             color: Colors.white,
             fontSize: 22,
@@ -163,12 +149,12 @@ class _CreateAccountState extends State<CreateAccount> {
   }
 
   Widget field(Size size, String hintText, IconData icon,
-      TextEditingController cont, bool obscure) {
+      TextEditingController cont, bool obstruct) {
     return Container(
       height: size.height / 15,
       width: size.width / 1.3,
       child: TextField(
-        obscureText: obscure,
+        obscureText: obstruct,
         controller: cont,
         decoration: InputDecoration(
           prefixIcon: Icon(icon),

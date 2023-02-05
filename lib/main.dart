@@ -1,7 +1,6 @@
-import 'package:flutchat/Authenticate.dart';
+import 'package:flutchat/Authenticate/Authenticate.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutchat/LoginScreen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutchat/LoginScreen.dart';
+import 'package:flutchat/Authenticate/LoginScreen.dart';
 import 'package:flutter/material.dart';
 
 Future<User?> createAccount(String name, String email, String password) async {
@@ -24,7 +24,7 @@ Future<User?> createAccount(String name, String email, String password) async {
       print("account not created");
     }
     return userCredential.user;
-  } catch (e) {
+  }  catch (e) {
     print(e);
     return null;
   }

@@ -15,19 +15,19 @@ Future<User?> createAccount(String name, String email, String password) async {
     if (userCredential != null) {
       print("account created");
 
-
       userCredential.user!.updateDisplayName(name);
 
       await _firestore.collection('users').doc(_auth.currentUser!.uid).set({
         "name": name,
         "email": email,
         "status": "Unavailable",
+        "uid": _auth.currentUser!.uid,
       });
     } else {
       print("account not created");
     }
     return userCredential.user;
-  }  catch (e) {
+  } catch (e) {
     print(e);
     return null;
   }
@@ -35,18 +35,18 @@ Future<User?> createAccount(String name, String email, String password) async {
 
 Future<User?> logIn(String email, String password) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  // FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   try {
     UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
 
-    print("Login Successful");
-    // _firestore
-    //     .collection('users')
-    //     .doc(_auth.currentUser!.uid)
-    //     .get()
-    //     .then((value) => userCredential.user!.updateDisplayName(value['name']));
+    print("Login Sucessfull");
+    _firestore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .get()
+        .then((value) => userCredential.user!.updateDisplayName(value['name']));
 
     return userCredential.user;
   } catch (e) {

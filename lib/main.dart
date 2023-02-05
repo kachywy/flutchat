@@ -9,7 +9,8 @@ Future main() async {
           apiKey: "AIzaSyDmcz1XeKs2Ym3OmT8s4TkqFUb23GcyWCw",
           appId: "1:712544769551:android:ed5d0e4a1587a4c112357a",
           messagingSenderId: "712544769551",
-          projectId: "flutterists-3e57f"));
+          projectId: "flutterists-3e57f",
+          storageBucket: "gs://flutterists-3e57f.appspot.com"));
   runApp(MyApp());
 }
 

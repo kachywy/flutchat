@@ -2,6 +2,7 @@ import 'package:flutchat/Authenticate/Methods.dart';
 import 'package:flutchat/Screens/ChatRoom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutchat/group_chats/group_chat_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -163,7 +164,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.group),
-        onPressed: () {},
+         onPressed: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => GroupChatHomeScreen(),
+          ),
+        ),
       ),
     );
   }

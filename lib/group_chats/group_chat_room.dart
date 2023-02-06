@@ -1,7 +1,15 @@
+// import 'dart:html';
+import 'dart:io';
+// import 'dart:js';
+// import 'dart:js';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutchat/group_chats/group_info.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 class GroupChatRoom extends StatelessWidget {
   final String groupChatId, groupName;
@@ -12,6 +20,63 @@ class GroupChatRoom extends StatelessWidget {
   final TextEditingController _message = TextEditingController();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  File? imageFile;
+
+  Future getImage() async {
+    ImagePicker _picker = ImagePicker();
+
+    await _picker.pickImage(source: ImageSource.gallery).then((xFile) {
+      if (xFile != null) {
+        imageFile = File(xFile.path);
+        uploadImage();
+      }
+    });
+  }
+
+  Future uploadImage() async {
+    String fileName = Uuid().v1();
+    int status = 1;
+
+    await _firestore
+        .collection('groups')
+        .doc(groupChatId)
+        .collection('chats')
+        .doc(fileName)
+        .set({
+      "sendby": _auth.currentUser!.displayName,
+      "message": "",
+      "type": "img",
+      "time": FieldValue.serverTimestamp(),
+    });
+
+    var ref =
+        FirebaseStorage.instance.ref().child('images').child("$fileName.jpg");
+
+    var uploadTask = await ref.putFile(imageFile!).catchError((error) async {
+      await _firestore
+          .collection('groups')
+          .doc(groupChatId)
+          .collection('chats')
+          .doc(fileName)
+          .delete();
+
+      status = 0;
+    });
+
+    if (status == 1) {
+      String imageUrl = await uploadTask.ref.getDownloadURL();
+
+      await _firestore
+          .collection('groups')
+          .doc(groupChatId)
+          .collection('chats')
+          .doc(fileName)
+          .update({"message": imageUrl});
+
+      print(imageUrl);
+    }
+  }
 
   void onSendMessage() async {
     if (_message.text.isNotEmpty) {
@@ -74,7 +139,7 @@ class GroupChatRoom extends StatelessWidget {
                             snapshot.data!.docs[index].data()
                                 as Map<String, dynamic>;
 
-                        return messageTile(size, chatMap);
+                        return messageTile(size, chatMap, context);
                       },
                     );
                   } else {
@@ -100,7 +165,7 @@ class GroupChatRoom extends StatelessWidget {
                         controller: _message,
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
-                              onPressed: () {},
+                              onPressed: () => getImage(),
                               icon: Icon(Icons.photo),
                             ),
                             hintText: "Send Message",
@@ -121,7 +186,7 @@ class GroupChatRoom extends StatelessWidget {
     );
   }
 
-  Widget messageTile(Size size, Map<String, dynamic> chatMap) {
+  Widget messageTile(Size size, Map<String, dynamic> chatMap, BuildContext context) {
     return Builder(builder: (_) {
       if (chatMap['type'] == "text") {
         return Container(
@@ -164,16 +229,26 @@ class GroupChatRoom extends StatelessWidget {
         );
       } else if (chatMap['type'] == "img") {
         return Container(
+          height: size.height / 2.5,
           width: size.width,
-          alignment: chatMap['sendBy'] == _auth.currentUser!.displayName
+          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+          alignment: chatMap['sendby'] == _auth.currentUser!.displayName
               ? Alignment.centerRight
               : Alignment.centerLeft,
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 14),
-            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-            height: size.height / 2,
-            child: Image.network(
-              chatMap['message'],
+          child: InkWell(
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => ShowImage(imageUrl: chatMap['message']))),
+            child: Container(
+              height: size.height / 2.5,
+              width: size.width / 2,
+              decoration: BoxDecoration(border: Border.all()),
+              alignment: chatMap['message'] != "" ? null : Alignment.center,
+              child: chatMap['message'] != ""
+                  ? Image.network(
+                      chatMap['message'],
+                      fit: BoxFit.cover,
+                    )
+                  : CircularProgressIndicator(),
             ),
           ),
         );
@@ -202,5 +277,25 @@ class GroupChatRoom extends StatelessWidget {
         return SizedBox();
       }
     });
+  }
+}
+
+class ShowImage extends StatelessWidget {
+  final String imageUrl;
+
+  const ShowImage({required this.imageUrl, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      body: Container(
+        height: size.height,
+        width: size.width,
+        color: Colors.black,
+        child: Image.network(imageUrl),
+      ),
+    );
   }
 }

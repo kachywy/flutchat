@@ -244,8 +244,17 @@ class _GroupInfoState extends State<GroupInfo> {
                               ),
                             ),
                             subtitle: Text(membersList[index]['email']),
-                            trailing: Text(
-                                membersList[index]['isAdmin'] ? "Admin" : ""),
+                            trailing: 
+                            Column(
+                              children: [
+                                Text(membersList[index]['isAdmin']
+                                    ? "Admin"
+                                    : ""),
+                                if (membersList[index]['email'] ==
+                                    _auth.currentUser!.email)
+                                  Text("You"),
+                              ],
+                            ),
                           );
                         },
                       ),

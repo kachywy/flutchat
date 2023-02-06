@@ -60,7 +60,6 @@ Future logOut(BuildContext context) async {
     await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
       "status": "Offline",
     });
-    print("Offline na");
     await _auth.signOut().then((value) {
       Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
     });

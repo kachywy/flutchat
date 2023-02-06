@@ -1,6 +1,7 @@
-import 'package:flutchat/Screens/HomeScreen.dart';
-import 'package:flutter/material.dart';
 import 'package:flutchat/Authenticate/Methods.dart';
+import 'package:flutter/material.dart';
+
+import '../Screens/HomeScreen.dart';
 
 class CreateAccount extends StatefulWidget {
   @override
@@ -34,7 +35,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   ),
                   // Container(
                   //   alignment: Alignment.centerLeft,
-                  //   width: size.width / 1.2,
+                  //   width: size.width / 0.5,
                   //   child: IconButton(
                   //       icon: Icon(Icons.arrow_back_ios), onPressed: () {}),
                   // ),
@@ -42,26 +43,28 @@ class _CreateAccountState extends State<CreateAccount> {
                     height: size.height / 50,
                   ),
                   Container(
-                    width: size.width / 1.3,
+                    width: size.width / 1.1,
                     child: Text(
                       "Welcome",
-                      style:
-                          TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 34,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Container(
-                    width: size.width / 1.3,
+                    width: size.width / 1.1,
                     child: Text(
-                      "Create Account to Continue",
+                      "Create Account to Contiue!",
                       style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 25,
+                        color: Colors.grey[700],
+                        fontSize: 20,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: size.height / 10,
+                    height: size.height / 20,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 18.0),
@@ -72,14 +75,11 @@ class _CreateAccountState extends State<CreateAccount> {
                           field(size, "Name", Icons.account_box, _name, false),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: size.width,
-                      alignment: Alignment.center,
-                      child:
-                          field(size, "Email", Icons.account_box, _email, false),
-                    ),
+                  Container(
+                    width: size.width,
+                    alignment: Alignment.center,
+                    child:
+                        field(size, "Email", Icons.account_box, _email, false),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 18.0),
@@ -91,9 +91,12 @@ class _CreateAccountState extends State<CreateAccount> {
                     ),
                   ),
                   SizedBox(
-                    height: size.height / 10,
+                    height: size.height / 20,
                   ),
                   customButton(size),
+                  SizedBox(
+                    height: size.height / 40,
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
@@ -123,6 +126,7 @@ class _CreateAccountState extends State<CreateAccount> {
           setState(() {
             isLoading = true;
           });
+
           createAccount(_name.text, _email.text, _password.text).then((user) {
             if (user != null) {
               setState(() {
@@ -130,9 +134,9 @@ class _CreateAccountState extends State<CreateAccount> {
               });
               Navigator.push(
                   context, MaterialPageRoute(builder: (_) => HomeScreen()));
-              print("Account Created Successfully");
+              print("Account Created Sucessfull");
             } else {
-              print("Creation of account failed");
+              print("Login Failed");
               setState(() {
                 isLoading = false;
               });
@@ -143,30 +147,29 @@ class _CreateAccountState extends State<CreateAccount> {
         }
       },
       child: Container(
-        height: size.height / 14,
-        width: size.width / 1.2,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: Colors.blue,
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          "Create Account",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
+          height: size.height / 14,
+          width: size.width / 1.2,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.blue,
           ),
-        ),
-      ),
+          alignment: Alignment.center,
+          child: Text(
+            "Create Account",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          )),
     );
   }
 
   Widget field(Size size, String hintText, IconData icon,
       TextEditingController cont, bool obscure) {
     return Container(
-      height: size.height / 15,
-      width: size.width / 1.3,
+      height: size.height / 14,
+      width: size.width / 1.1,
       child: TextField(
         obscureText: obscure,
         controller: cont,

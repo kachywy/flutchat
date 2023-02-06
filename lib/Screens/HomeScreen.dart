@@ -1,8 +1,8 @@
 import 'package:flutchat/Authenticate/Methods.dart';
 import 'package:flutchat/Screens/ChatRoom.dart';
+import 'package:flutchat/group_chats/group_chat_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutchat/group_chats/group_chat_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
     setStatus("Online");
   }
 
@@ -73,19 +73,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    String _currentUserName = _auth.currentUser!.displayName!;
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Home Screen"),
         actions: [
-          Row(
-            children: [
-              Text("LogOut"),
-              IconButton(
-                  icon: Icon(Icons.logout), onPressed: () => logOut(context)),
-            ],
-          )
+          IconButton(icon: Icon(Icons.logout), onPressed: () => logOut(context))
         ],
       ),
       body: isLoading
@@ -147,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         },
                         leading: Icon(Icons.account_box, color: Colors.black),
                         title: Text(
-                          _currentUserName == userMap!['name']
+                          userMap!['name'] == _auth.currentUser!.displayName!
                               ? "You"
                               : userMap!['name'],
                           style: TextStyle(
@@ -164,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.group),
-         onPressed: () => Navigator.of(context).push(
+        onPressed: () => Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => GroupChatHomeScreen(),
           ),

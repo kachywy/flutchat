@@ -1,7 +1,7 @@
-import 'package:flutchat/Screens/HomeScreen.dart';
-import 'package:flutter/material.dart';
 import 'package:flutchat/Authenticate/CreateAccount.dart';
+import 'package:flutchat/Screens/HomeScreen.dart';
 import 'package:flutchat/Authenticate/Methods.dart';
+import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   // Container(
                   //   alignment: Alignment.centerLeft,
-                  //   width: size.width / 1.2,
+                  //   width: size.width / 0.5,
                   //   child: IconButton(
                   //       icon: Icon(Icons.arrow_back_ios), onPressed: () {}),
                   // ),
@@ -42,19 +42,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: size.height / 50,
                   ),
                   Container(
-                    width: size.width / 1.3,
+                    width: size.width / 1.1,
                     child: Text(
                       "Welcome",
-                      style:
-                          TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 34,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Container(
-                    width: size.width / 1.3,
+                    width: size.width / 1.1,
                     child: Text(
-                      "Sign In to Continue",
+                      "Sign In to Contiue!",
                       style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.grey[700],
                         fontSize: 25,
                         fontWeight: FontWeight.w500,
                       ),
@@ -66,16 +68,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: size.width,
                     alignment: Alignment.center,
-                    child:
-                        field(size, "Email", Icons.account_box, _email, false),
+                    child: field(size, "Email", Icons.account_box, _email, false),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 18.0),
                     child: Container(
                       width: size.width,
                       alignment: Alignment.center,
-                      child:
-                          field(size, "Password", Icons.lock, _password, true),
+                      child: field(size, "Password", Icons.lock, _password, true),
                     ),
                   ),
                   SizedBox(
@@ -83,17 +83,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   customButton(size),
                   SizedBox(
-                    height: size.height / 8,
+                    height: size.height / 40,
                   ),
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => CreateAccount())),
-                    child: Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => CreateAccount())),
+                      child: Text(
+                        "Create Account",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   )
@@ -113,48 +116,49 @@ class _LoginScreenState extends State<LoginScreen> {
 
           logIn(_email.text, _password.text).then((user) {
             if (user != null) {
-              print("Login Successful");
+              print("Login Sucessfull");
               setState(() {
                 isLoading = false;
               });
               Navigator.push(
                   context, MaterialPageRoute(builder: (_) => HomeScreen()));
             } else {
-              print("Login failed");
+              print("Login Failed");
               setState(() {
                 isLoading = false;
               });
             }
           });
+        } else {
+          print("Please fill form correctly");
         }
       },
       child: Container(
-        height: size.height / 14,
-        width: size.width / 1.2,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: Colors.blue,
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          "Login",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
+          height: size.height / 14,
+          width: size.width / 1.2,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.blue,
           ),
-        ),
-      ),
+          alignment: Alignment.center,
+          child: Text(
+            "Login",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          )),
     );
   }
 
-  Widget field(Size size, String hintText, IconData icon,
-      TextEditingController cont, bool obstruct) {
+  Widget field(
+      Size size, String hintText, IconData icon, TextEditingController cont, bool obscure) {
     return Container(
-      height: size.height / 15,
-      width: size.width / 1.3,
+      height: size.height / 14,
+      width: size.width / 1.1,
       child: TextField(
-        obscureText: obstruct,
+        obscureText: obscure,
         controller: cont,
         decoration: InputDecoration(
           prefixIcon: Icon(icon),

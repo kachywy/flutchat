@@ -139,7 +139,9 @@ class GroupChatRoom extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    chatMap['sendBy'],
+                    chatMap['sendBy'] == _auth.currentUser!.displayName!
+                        ? "You"
+                        : chatMap['sendBy'],
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,

@@ -1,6 +1,6 @@
+import 'package:flutchat/Authenticate/LoginScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutchat/Authenticate/LoginScreen.dart';
 import 'package:flutter/material.dart';
 
 Future<User?> createAccount(String name, String email, String password) async {
@@ -9,24 +9,21 @@ Future<User?> createAccount(String name, String email, String password) async {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   try {
-    UserCredential userCredential = (await _auth.createUserWithEmailAndPassword(
-        email: email, password: password));
+    UserCredential userCrendetial = await _auth.createUserWithEmailAndPassword(
+        email: email, password: password);
 
-    if (userCredential != null) {
-      print("account created");
+    print("Account created Succesfull");
 
-      userCredential.user!.updateDisplayName(name);
+    userCrendetial.user!.updateDisplayName(name);
 
-      await _firestore.collection('users').doc(_auth.currentUser!.uid).set({
-        "name": name,
-        "email": email,
-        "status": "Unavailable",
-        "uid": _auth.currentUser!.uid,
-      });
-    } else {
-      print("account not created");
-    }
-    return userCredential.user;
+    await _firestore.collection('users').doc(_auth.currentUser!.uid).set({
+      "name": name,
+      "email": email,
+      "status": "Unavalible",
+      "uid": _auth.currentUser!.uid,
+    });
+
+    return userCrendetial.user;
   } catch (e) {
     print(e);
     return null;
@@ -57,11 +54,17 @@ Future<User?> logIn(String email, String password) async {
 
 Future logOut(BuildContext context) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   try {
-    await _auth.signOut();
-    Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+    await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
+      "status": "Offline",
+    });
+    print("Offline na");
+    await _auth.signOut().then((value) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+    });
   } catch (e) {
-    print(e);
+    print("error");
   }
 }

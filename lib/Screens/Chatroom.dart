@@ -30,7 +30,7 @@ class ChatRoom extends StatelessWidget {
     });
   }
 
-   Future uploadImage() async {
+  Future uploadImage() async {
     String fileName = Uuid().v1();
     int status = 1;
 
@@ -108,7 +108,10 @@ class ChatRoom extends StatelessWidget {
               return Container(
                 child: Column(
                   children: [
-                    Text(userMap['name']),
+                    if (_auth.currentUser!.displayName! == userMap['name'])
+                      Text("You")
+                    else
+                      Text(userMap['name']),
                     Text(
                       snapshot.data!['status'],
                       style: TextStyle(fontSize: 14),
@@ -191,29 +194,30 @@ class ChatRoom extends StatelessWidget {
   }
 
   Widget messages(Size size, Map<String, dynamic> map, BuildContext context) {
-     return map['type'] == "text"
+    return map['type'] == "text"
         ? Container(
-      width: size.width,
-      alignment: map['sendby'] == _auth.currentUser!.displayName
-          ? Alignment.centerRight
-          : Alignment.centerLeft,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 14),
-        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Colors.blue,
-        ),
-        child: Text(
-          map['message'],
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    ) : Container(
+            width: size.width,
+            alignment: map['sendby'] == _auth.currentUser!.displayName
+                ? Alignment.centerRight
+                : Alignment.centerLeft,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.blue,
+              ),
+              child: Text(
+                map['message'],
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          )
+        : Container(
             height: size.height / 2.5,
             width: size.width,
             padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
@@ -244,6 +248,7 @@ class ChatRoom extends StatelessWidget {
           );
   }
 }
+
 class ShowImage extends StatelessWidget {
   final String imageUrl;
 
@@ -263,3 +268,5 @@ class ShowImage extends StatelessWidget {
     );
   }
 }
+
+//

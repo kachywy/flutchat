@@ -67,3 +67,14 @@ Future logOut(BuildContext context) async {
     print("error");
   }
 }
+
+Future SendResetPasswordFunction(String email) async {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  try {
+    final userEmail = await _auth.sendPasswordResetEmail(email: email);
+    print("Reset password sent");
+  } catch (e) {
+    print("error");
+  }
+}

@@ -1,17 +1,16 @@
-import 'package:flutchat/Authenticate/CreateAccount.dart';
-import 'package:flutchat/Authenticate/SendResetPassword.dart';
-import 'package:flutchat/Screens/HomeScreen.dart';
+import 'package:flutchat/Authenticate/LoginScreen.dart';
 import 'package:flutchat/Authenticate/Methods.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
+class SendResetPassword extends StatefulWidget {
+  const SendResetPassword({super.key});
+
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<SendResetPassword> createState() => _SendResetPasswordState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SendResetPasswordState extends State<SendResetPassword> {
   final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
   bool isLoading = false;
 
   @override
@@ -45,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: size.width / 1.1,
                     child: Text(
-                      "Welcome",
+                      "Forgot Password?",
                       style: TextStyle(
                         fontSize: 34,
                         fontWeight: FontWeight.bold,
@@ -55,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: size.width / 1.1,
                     child: Text(
-                      "Sign In to Contiue!",
+                      "Reset Password",
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontSize: 25,
@@ -66,17 +65,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: size.height / 10,
                   ),
-                  Container(
-                    width: size.width,
-                    alignment: Alignment.center,
-                    child: field(size, "Email", Icons.account_box, _email, false),
-                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 18.0),
                     child: Container(
                       width: size.width,
                       alignment: Alignment.center,
-                      child: field(size, "Password", Icons.lock, _password, true),
+                      child: field(size, "Email", Icons.lock, _email),
                     ),
                   ),
                   SizedBox(
@@ -89,10 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
-                      onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => CreateAccount())),
+                      onTap: () => Navigator.pop(context),
                       child: Text(
-                        "Create Account",
+                        "Login",
                         style: TextStyle(
                           color: Colors.blue,
                           fontSize: 16,
@@ -100,22 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height / 40,
-                  ),
-                  GestureDetector(
-                      onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => SendResetPassword())),
-                      child: Text(
-                        "Forgot Password?",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
+                  )
                 ],
               ),
             ),
@@ -125,26 +103,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget customButton(Size size) {
     return GestureDetector(
       onTap: () {
-        if (_email.text.isNotEmpty && _password.text.isNotEmpty) {
+        if (_email.text.isNotEmpty) {
           setState(() {
             isLoading = true;
           });
-
-          logIn(_email.text, _password.text).then((user) {
-            if (user != null) {
-              print("Login Sucessfull");
-              setState(() {
-                isLoading = false;
-              });
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => HomeScreen()));
-            } else {
-              print("Login Failed");
-              setState(() {
-                isLoading = false;
-              });
-            }
-          });
+          SendResetPasswordFunction(_email.text);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => LoginScreen()));
+          print("Reset Password sent sucessfully");
         } else {
           print("Please fill form correctly");
         }
@@ -158,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           alignment: Alignment.center,
           child: Text(
-            "Login",
+            "Reset",
             style: TextStyle(
               color: Colors.white,
               fontSize: 18,
@@ -169,12 +135,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget field(
-      Size size, String hintText, IconData icon, TextEditingController cont, bool obscure) {
+      Size size, String hintText, IconData icon, TextEditingController cont) {
     return Container(
       height: size.height / 14,
       width: size.width / 1.1,
       child: TextField(
-        obscureText: obscure,
         controller: cont,
         decoration: InputDecoration(
           prefixIcon: Icon(icon),

@@ -13,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Map<String, dynamic>? userMap;
   bool isLoading = false;
+  bool noUserFound = false;
   final TextEditingController _search = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -57,17 +58,26 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       isLoading = true;
     });
 
-    await _firestore
-        .collection('users')
-        .where("email", isEqualTo: _search.text)
-        .get()
-        .then((value) {
-      setState(() {
-        userMap = value.docs[0].data();
-        isLoading = false;
+    try {
+      await _firestore
+          .collection('users')
+          .where("email", isEqualTo: _search.text)
+          .get()
+          .then((value) {
+        setState(() {
+          isLoading = false;
+          userMap = value.docs[0].data();
+        });
+        print(userMap);
       });
-      print(userMap);
-    });
+    } catch (e) {
+      setState(() {
+        userMap = null;
+        isLoading = false;
+        noUserFound = true;
+        print("No User Found");
+      });
+    }
   }
 
   @override
@@ -152,7 +162,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         subtitle: Text(userMap!['email']),
                         trailing: Icon(Icons.chat, color: Colors.black),
                       )
-                    : Container(),
+                    : noUserFound == true
+                        ? Text("No User Found")
+                        : SizedBox(),
               ],
             ),
       floatingActionButton: FloatingActionButton(

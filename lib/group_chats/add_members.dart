@@ -20,6 +20,7 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   Map<String, dynamic>? userMap;
   bool isLoading = false;
+  bool noUserFound = false;
   List membersList = [];
 
   @override
@@ -34,17 +35,26 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
       isLoading = true;
     });
 
-    await _firestore
-        .collection('users')
-        .where("email", isEqualTo: _search.text)
-        .get()
-        .then((value) {
-      setState(() {
-        userMap = value.docs[0].data();
-        isLoading = false;
+    try {
+      await _firestore
+          .collection('users')
+          .where("email", isEqualTo: _search.text)
+          .get()
+          .then((value) {
+        setState(() {
+          userMap = value.docs[0].data();
+          isLoading = false;
+        });
+        print(userMap);
       });
-      print(userMap);
-    });
+    } catch (e) {
+      setState(() {
+        userMap = null;
+        isLoading = false;
+        noUserFound = true;
+        print("No User Found");
+      });
+    }
   }
 
   void onAddMembers() async {
@@ -53,7 +63,6 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
     await _firestore.collection('groups').doc(widget.groupChatId).update({
       "members": membersList,
     });
-
     await _firestore
         .collection('users')
         .doc(userMap!['uid'])
@@ -117,7 +126,9 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
                     subtitle: Text(userMap!['email']),
                     trailing: Icon(Icons.add),
                   )
-                : SizedBox(),
+                : noUserFound == true
+                        ? Text("No User Found")
+                        : SizedBox(),
           ],
         ),
       ),

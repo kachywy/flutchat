@@ -16,6 +16,7 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   List<Map<String, dynamic>> membersList = [];
   bool isLoading = false;
+  bool noUserFound = false;
   Map<String, dynamic>? userMap;
 
   @override
@@ -45,18 +46,29 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
     setState(() {
       isLoading = true;
     });
-
-    await _firestore
-        .collection('users')
-        .where("email", isEqualTo: _search.text)
-        .get()
-        .then((value) {
-      setState(() {
-        userMap = value.docs[0].data();
-        isLoading = false;
+    try {
+      await _firestore
+          .collection('users')
+          .where("email", isEqualTo: _search.text)
+          .get()
+          .then((value) {
+        setState(() {
+          isLoading = false;
+          userMap = value.docs[0].data();
+          // if (value == null) {
+          //   isLoading = false;
+          // }
+        });
+        print(userMap);
       });
-      print(userMap);
-    });
+    } catch (e) {
+      setState(() {
+        userMap = null;
+        isLoading = false;
+        noUserFound = true;
+        print("No User Found");
+      });
+    }
   }
 
   void onResultTap() {
@@ -161,7 +173,9 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
                     subtitle: Text(userMap!['email']),
                     trailing: Icon(Icons.add),
                   )
-                : SizedBox(),
+                : noUserFound == true
+                    ? Text("No User Found")
+                    : SizedBox(),
           ],
         ),
       ),

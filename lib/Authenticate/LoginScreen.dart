@@ -10,8 +10,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formfield = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  bool passToggle = true;
   bool isLoading = false;
 
   @override
@@ -28,85 +30,131 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             )
           : SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: size.height / 20,
-                  ),
-                  // Container(
-                  //   alignment: Alignment.centerLeft,
-                  //   width: size.width / 0.5,
-                  //   child: IconButton(
-                  //       icon: Icon(Icons.arrow_back_ios), onPressed: () {}),
-                  // ),
-                  SizedBox(
-                    height: size.height / 50,
-                  ),
-                  Container(
-                    width: size.width / 1.1,
-                    child: Text(
-                      "Welcome",
-                      style: TextStyle(
-                        fontSize: 34,
-                        fontWeight: FontWeight.bold,
+              child: Form(
+                key: _formfield,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: size.height / 20,
+                    ),
+                    // Container(
+                    //   alignment: Alignment.centerLeft,
+                    //   width: size.width / 0.5,
+                    //   child: IconButton(
+                    //       icon: Icon(Icons.arrow_back_ios), onPressed: () {}),
+                    // ),
+                    SizedBox(
+                      height: size.height / 50,
+                    ),
+                    Center(
+                      child: Container(
+                        width: size.width / 1.1,
+                        child: Text(
+                          "Welcome",
+                          style: TextStyle(
+                            fontSize: 34,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: size.width / 1.1,
-                    child: Text(
-                      "Sign In to Contiue!",
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontSize: 25,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height / 10,
-                  ),
-                  Container(
-                    width: size.width,
-                    alignment: Alignment.center,
-                    child: field(size, "Email", Icons.account_box, _email, false),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 18.0),
-                    child: Container(
-                      width: size.width,
-                      alignment: Alignment.center,
-                      child: field(size, "Password", Icons.lock, _password, true),
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height / 10,
-                  ),
-                  customButton(size),
-                  SizedBox(
-                    height: size.height / 40,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => CreateAccount())),
+                    Container(
+                      width: size.width / 1.1,
                       child: Text(
-                        "Create Account",
+                        "Sign In to Continue!",
                         style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 16,
+                          color: Colors.grey[700],
+                          fontSize: 25,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height / 40,
-                  ),
-                  GestureDetector(
-                      onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => SendResetPassword())),
+                    SizedBox(
+                      height: size.height / 10,
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        controller: _email,
+                        decoration: InputDecoration(
+                          labelText: "Email",
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.email),
+                        ),
+                        validator: validateEmail,
+                      ),
+                    ),
+
+                    SizedBox(
+                      height: size.height / 30,
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: TextFormField(
+                        obscureText: true,
+                        controller: _password,
+                        decoration: InputDecoration(
+                          labelText: "Password",
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.lock),
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Enter Password";
+                          } else if (_password.text.length < 6) {
+                            return "Password should be 6 or more characters";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(vertical: 18.0),
+                    //   child: Container(
+                    //     width: size.width,
+                    //     alignment: Alignment.center,
+                    //     child: field(
+                    //         size, "Password", Icons.lock, _password, true),
+                    //   ),
+                    // ),
+                    SizedBox(
+                      height: size.height / 10,
+                    ),
+                    Center(
+                      child: Text(errorMessage),
+                    ),
+                    SizedBox(
+                      height: size.height / 10,
+                    ),
+                    customButton(size),
+                    SizedBox(
+                      height: size.height / 40,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) => CreateAccount())),
+                        child: Text(
+                          "Create Account",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: size.height / 40,
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => SendResetPassword())),
                       child: Text(
                         "Forgot Password?",
                         style: TextStyle(
@@ -116,7 +164,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                ],
+                  ],
+                ),
               ),
             ),
     );
@@ -125,28 +174,30 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget customButton(Size size) {
     return GestureDetector(
       onTap: () {
-        if (_email.text.isNotEmpty && _password.text.isNotEmpty) {
-          setState(() {
-            isLoading = true;
-          });
+        if (_formfield.currentState!.validate()) {
+          if (_email.text.isNotEmpty && _password.text.isNotEmpty) {
+            setState(() {
+              isLoading = true;
+            });
 
-          logIn(_email.text, _password.text).then((user) {
-            if (user != null) {
-              print("Login Sucessfull");
-              setState(() {
-                isLoading = false;
-              });
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => HomeScreen()));
-            } else {
-              print("Login Failed");
-              setState(() {
-                isLoading = false;
-              });
-            }
-          });
-        } else {
-          print("Please fill form correctly");
+            logIn(_email.text, _password.text).then((user) {
+              if (user != null) {
+                print("Login Sucessful");
+                setState(() {
+                  isLoading = false;
+                });
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => HomeScreen()));
+              } else {
+                setState(() {
+                  isLoading = false;
+                });
+                errorMessage = "Login Failed";
+              }
+            });
+          } else {
+            print("Please fill form correctly");
+          }
         }
       },
       child: Container(
@@ -168,8 +219,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget field(
-      Size size, String hintText, IconData icon, TextEditingController cont, bool obscure) {
+  Widget field(Size size, String hintText, IconData icon,
+      TextEditingController cont, bool obscure) {
     return Container(
       height: size.height / 14,
       width: size.width / 1.1,
@@ -187,4 +238,24 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+}
+
+String? validateEmail(String? value) {
+  const pattern = r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
+      r'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-'
+      r'\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*'
+      r'[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4]'
+      r'[0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9]'
+      r'[0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\'
+      r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])';
+  final regex = RegExp(pattern);
+
+  if (value!.isNotEmpty && !regex.hasMatch(value)) {
+    return 'Enter a valid email address';
+  }
+  if (value!.isEmpty) {
+    return "Enter Email";
+  }
+
+  return null;
 }

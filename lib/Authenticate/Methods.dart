@@ -1,7 +1,11 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutchat/Authenticate/LoginScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+String errorMessage = '';
+GlobalMethods _globalMethods = GlobalMethods();
 
 Future<User?> createAccount(String name, String email, String password) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -12,7 +16,7 @@ Future<User?> createAccount(String name, String email, String password) async {
     UserCredential userCrendetial = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
 
-    print("Account created Succesfull");
+    print("Account Created Succesful");
 
     userCrendetial.user!.updateDisplayName(name);
 
@@ -24,9 +28,8 @@ Future<User?> createAccount(String name, String email, String password) async {
     });
 
     return userCrendetial.user;
-  } catch (e) {
-    print(e);
-    return null;
+  } on FirebaseAuthException catch (error) {
+    Fluttertoast.showToast(msg: error.message!, gravity: ToastGravity.TOP);
   }
 }
 
@@ -38,7 +41,7 @@ Future<User?> logIn(String email, String password) async {
     UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
 
-    print("Login Sucessfull");
+    print("Login Successful");
     _firestore
         .collection('users')
         .doc(_auth.currentUser!.uid)
@@ -46,10 +49,11 @@ Future<User?> logIn(String email, String password) async {
         .then((value) => userCredential.user!.updateDisplayName(value['name']));
 
     return userCredential.user;
-  } catch (e) {
-    print(e);
-    return null;
+  } on FirebaseAuthException catch (error) {
+    Fluttertoast.showToast(msg: error.message!, gravity: ToastGravity.TOP);
   }
+  }
+  ;
 }
 
 Future logOut(BuildContext context) async {

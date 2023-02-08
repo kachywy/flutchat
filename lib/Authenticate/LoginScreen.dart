@@ -124,9 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: size.height / 10,
                     ),
-                    Center(
-                      child: Text(errorMessage),
-                    ),
+
                     SizedBox(
                       height: size.height / 10,
                     ),
@@ -192,7 +190,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 setState(() {
                   isLoading = false;
                 });
-                errorMessage = "Login Failed";
               }
             });
           } else {

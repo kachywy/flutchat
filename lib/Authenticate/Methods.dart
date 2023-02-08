@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 String errorMessage = '';
-GlobalMethods _globalMethods = GlobalMethods();
 
 Future<User?> createAccount(String name, String email, String password) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -52,8 +51,6 @@ Future<User?> logIn(String email, String password) async {
   } on FirebaseAuthException catch (error) {
     Fluttertoast.showToast(msg: error.message!, gravity: ToastGravity.TOP);
   }
-  }
-  ;
 }
 
 Future logOut(BuildContext context) async {

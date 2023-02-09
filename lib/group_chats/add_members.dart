@@ -58,7 +58,12 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
   }
 
   void onAddMembers() async {
-    membersList.add(userMap);
+    membersList.add({
+      "name": userMap!['name'],
+      "email": userMap!['email'],
+      "uid": userMap!['uid'],
+      "isAdmin": false,
+    });
 
     await _firestore.collection('groups').doc(widget.groupChatId).update({
       "members": membersList,
@@ -68,7 +73,10 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
         .doc(userMap!['uid'])
         .collection('groups')
         .doc(widget.groupChatId)
-        .set({"name": widget.name, "id": widget.groupChatId});
+        .set({
+      "name": widget.name,
+      "id": widget.groupChatId,
+    });
   }
 
   @override
@@ -127,8 +135,8 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
                     trailing: Icon(Icons.add),
                   )
                 : noUserFound == true
-                        ? Text("No User Found")
-                        : SizedBox(),
+                    ? Text("No User Found")
+                    : SizedBox(),
           ],
         ),
       ),

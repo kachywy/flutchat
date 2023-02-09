@@ -45,6 +45,7 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
           userMap = value.docs[0].data();
           isLoading = false;
         });
+        noUserFound = false;
         print(userMap);
       });
     } catch (e) {
@@ -118,6 +119,9 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
                     onPressed: onSearch,
                     child: Text("Search"),
                   ),
+            SizedBox(
+              height: size.height / 30,
+            ),
             userMap != null
                 ? ListTile(
                     onTap: onAddMembers,
@@ -127,8 +131,8 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
                     trailing: Icon(Icons.add),
                   )
                 : noUserFound == true
-                        ? Text("No User Found")
-                        : SizedBox(),
+                    ? Text("No User Found")
+                    : SizedBox(),
           ],
         ),
       ),

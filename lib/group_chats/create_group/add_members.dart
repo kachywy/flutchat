@@ -59,6 +59,7 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
           //   isLoading = false;
           // }
         });
+        noUserFound = false;
         print(userMap);
       });
     } catch (e) {
@@ -88,7 +89,6 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
           "uid": userMap!['uid'],
           "isAdmin": false,
         });
-
         userMap = null;
       });
     }
@@ -165,6 +165,9 @@ class _AddMembersInGroupState extends State<AddMembersInGroup> {
                     onPressed: onSearch,
                     child: Text("Search"),
                   ),
+            SizedBox(
+              height: size.height / 30,
+            ),
             userMap != null
                 ? ListTile(
                     onTap: onResultTap,

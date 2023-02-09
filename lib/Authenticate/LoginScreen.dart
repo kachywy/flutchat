@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Container(
                         width: size.width / 1.1,
                         child: Text(
-                          "Welcome User",
+                          "Welcome",
                           style: TextStyle(
                             fontSize: 34,
                             fontWeight: FontWeight.bold,

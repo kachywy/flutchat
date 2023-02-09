@@ -68,6 +68,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           isLoading = false;
           userMap = value.docs[0].data();
         });
+
+        noUserFound = false;
         print(userMap);
       });
     } catch (e) {
@@ -86,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home Screen"),
+        title: Text(_auth.currentUser!.displayName!),
         actions: [
           IconButton(icon: Icon(Icons.logout), onPressed: () => logOut(context))
         ],
@@ -150,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         },
                         leading: Icon(Icons.account_box, color: Colors.black),
                         title: Text(
-                          userMap!['name'] == _auth.currentUser!.displayName!
+                          userMap!['email'] == _auth.currentUser!.email
                               ? "You"
                               : userMap!['name'],
                           style: TextStyle(

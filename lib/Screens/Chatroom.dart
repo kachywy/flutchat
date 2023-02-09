@@ -108,7 +108,7 @@ class ChatRoom extends StatelessWidget {
               return Container(
                 child: Column(
                   children: [
-                    if (_auth.currentUser!.displayName! == userMap['name'])
+                    if (_auth.currentUser!.email == userMap['email'])
                       Text("You")
                     else
                       Text(userMap['name']),

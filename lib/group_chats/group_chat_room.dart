@@ -1,8 +1,5 @@
 // import 'dart:html';
 import 'dart:io';
-// import 'dart:js';
-// import 'dart:js';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutchat/group_chats/group_info.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -148,35 +145,39 @@ class GroupChatRoom extends StatelessWidget {
                 },
               ),
             ),
-            Container(
-              height: size.height / 10,
-              width: size.width,
-              alignment: Alignment.center,
+            Center(
               child: Container(
-                height: size.height / 12,
-                width: size.width / 1.1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: size.height / 17,
-                      width: size.width / 1.3,
-                      child: TextField(
-                        controller: _message,
-                        decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              onPressed: () => getImage(),
-                              icon: Icon(Icons.photo),
-                            ),
-                            hintText: "Send Message",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            )),
+                height: size.height / 10,
+                width: size.width,
+                alignment: Alignment.center,
+                child: Container(
+                  height: size.height / 12,
+                  width: size.width / 1.1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: size.height / 15,
+                        width: size.width / 1.3,
+                        child: TextField(
+                          controller: _message,
+                          decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                onPressed: () => getImage(),
+                                icon: Icon(Icons.photo),
+                              ),
+                              hintText: "Type your message here..",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              )),
+                        ),
                       ),
-                    ),
-                    IconButton(
-                        icon: Icon(Icons.send), onPressed: onSendMessage),
-                  ],
+                      IconButton(
+                          icon: Icon(Icons.send),
+                          color: Colors.blue,
+                          onPressed: onSendMessage),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -186,7 +187,8 @@ class GroupChatRoom extends StatelessWidget {
     );
   }
 
-  Widget messageTile(Size size, Map<String, dynamic> chatMap, BuildContext context) {
+  Widget messageTile(
+      Size size, Map<String, dynamic> chatMap, BuildContext context) {
     return Builder(builder: (_) {
       if (chatMap['type'] == "text") {
         return Container(
@@ -219,9 +221,10 @@ class GroupChatRoom extends StatelessWidget {
                   Text(
                     chatMap['message'],
                     style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
                       color: Colors.white,
+                      fontFamily: 'Poppins',
                     ),
                   ),
                 ],

@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_auth.currentUser!.displayName!),
+        title: Text("Home Screen"),
         actions: [
           IconButton(icon: Icon(Icons.logout), onPressed: () => logOut(context))
         ],

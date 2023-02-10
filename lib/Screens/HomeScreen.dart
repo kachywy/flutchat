@@ -107,18 +107,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   height: size.height / 20,
                 ),
                 Container(
-                  height: size.height / 14,
+                  height: size.height / 12,
                   width: size.width,
                   alignment: Alignment.center,
                   child: Container(
                     height: size.height / 14,
                     width: size.width / 1.15,
                     child: TextField(
+                      style: TextStyle(fontFamily: 'Poppins'),
                       controller: _search,
                       decoration: InputDecoration(
                         hintText: "Search",
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(25),
                         ),
                       ),
                     ),
@@ -150,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             ),
                           );
                         },
-                        leading: Icon(Icons.account_box, color: Colors.black),
+                        leading: Icon(Icons.account_box, color: Colors.blue),
                         title: Text(
                           userMap!['email'] == _auth.currentUser!.email
                               ? "You"
@@ -162,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           ),
                         ),
                         subtitle: Text(userMap!['email']),
-                        trailing: Icon(Icons.chat, color: Colors.black),
+                        trailing: Icon(Icons.chat, color: Colors.blue),
                       )
                     : noUserFound == true
                         ? Text("No User Found")

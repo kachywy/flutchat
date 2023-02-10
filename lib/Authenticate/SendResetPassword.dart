@@ -90,30 +90,49 @@ class _SendResetPasswordState extends State<SendResetPassword> {
           print("Please fill form correctly");
         }
       },
-      child: Container(
-          height: size.height / 14,
-          width: size.width / 5.2,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            color: Colors.blue,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5), //shadow color
-                spreadRadius: 2, // spread radius
-                blurRadius: 5, // shadow blur radius
-                offset: const Offset(0, 3), // changes position of shadow
+      child: Column(
+        children: [
+          Container(
+              height: size.height / 14,
+              width: size.width / 5.2,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: Colors.blue,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5), //shadow color
+                    spreadRadius: 2, // spread radius
+                    blurRadius: 5, // shadow blur radius
+                    offset: const Offset(0, 3), // changes position of shadow
+                  ),
+                ],
               ),
-            ],
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            "Reset",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+              alignment: Alignment.center,
+              child: Text(
+                "Reset",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+          SizedBox(height: size.height / 60),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Text(
+                "Back to Login",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Poppins',
+                ),
+              ),
             ),
-          )),
+          )
+        ],
+      ),
     );
   }
 

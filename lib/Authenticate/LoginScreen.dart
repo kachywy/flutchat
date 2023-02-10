@@ -44,33 +44,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     //       icon: Icon(Icons.arrow_back_ios), onPressed: () {}),
                     // ),
                     SizedBox(
-                      height: size.height / 50,
-                    ),
-                    Center(
-                      child: Container(
-                        width: size.width / 1.1,
-                        child: Text(
-                          "Welcome",
-                          style: TextStyle(
-                            fontSize: 34,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: size.width / 1.1,
-                      child: Text(
-                        "Sign In to Continue!",
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontSize: 25,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
                       height: size.height / 10,
+                    ),
+                    Image(
+                      image: AssetImage('assets/img/logo.png'),
+                      height: 150,
+                    ),
+
+                    SizedBox(
+                      height: size.height / 30,
                     ),
 
                     Padding(
@@ -122,15 +104,27 @@ class _LoginScreenState extends State<LoginScreen> {
                     //   ),
                     // ),
                     SizedBox(
-                      height: size.height / 10,
+                      height: size.height / 50,
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => SendResetPassword())),
+                      child: Text("Forgot Password?",
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Poppins',
+                          ),
+                          textAlign: TextAlign.left),
                     ),
 
                     SizedBox(
-                      height: size.height / 10,
+                      height: size.height / 50,
                     ),
                     customButton(size),
                     SizedBox(
-                      height: size.height / 40,
+                      height: size.height / 50,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -138,29 +132,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: () => Navigator.of(context).push(
                             MaterialPageRoute(builder: (_) => CreateAccount())),
                         child: Text(
-                          "Create Account",
+                          "Don't have an account? Sign up here!",
                           style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 16,
+                            color: Colors.grey[700],
+                            fontSize: 14,
                             fontWeight: FontWeight.w500,
+                            fontFamily: 'Poppins',
                           ),
                         ),
                       ),
                     ),
                     SizedBox(
                       height: size.height / 40,
-                    ),
-                    GestureDetector(
-                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => SendResetPassword())),
-                      child: Text(
-                        "Forgot Password?",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
                     ),
                   ],
                 ),
@@ -201,8 +184,16 @@ class _LoginScreenState extends State<LoginScreen> {
           height: size.height / 14,
           width: size.width / 1.2,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(25),
             color: Colors.blue,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5), //shadow color
+                spreadRadius: 2, // spread radius
+                blurRadius: 5, // shadow blur radius
+                offset: const Offset(0, 3), // changes position of shadow
+              ),
+            ],
           ),
           alignment: Alignment.center,
           child: Text(
@@ -211,6 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
               color: Colors.white,
               fontSize: 18,
               fontWeight: FontWeight.bold,
+              fontFamily: 'SFPro',
             ),
           )),
     );

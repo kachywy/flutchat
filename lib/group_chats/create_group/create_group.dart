@@ -48,6 +48,7 @@ class _CreateGroupState extends State<CreateGroup> {
     await _firestore.collection('groups').doc(groupId).collection('chats').add({
       "message": "${_auth.currentUser!.displayName} Created This Group.",
       "type": "notify",
+      "time": FieldValue.serverTimestamp(),
     });
 
     Navigator.of(context).pushAndRemoveUntil(

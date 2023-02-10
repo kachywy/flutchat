@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AddMembersINGroup extends StatefulWidget {
@@ -17,11 +18,13 @@ class AddMembersINGroup extends StatefulWidget {
 
 class _AddMembersINGroupState extends State<AddMembersINGroup> {
   final TextEditingController _search = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   Map<String, dynamic>? userMap;
   bool isLoading = false;
   bool noUserFound = false;
   List membersList = [];
+  List groupList = [];
 
   @override
   void initState() {
@@ -58,18 +61,55 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
     }
   }
 
-  void onAddMembers() async {
-    membersList.add(userMap);
+  void onResultTap() {
+    bool isAlreadyExist = false;
 
+    for (int i = 0; i < membersList.length; i++) {
+      if (membersList[i]['uid'] == userMap!['uid']) {
+        isAlreadyExist = true;
+      }
+    }
+
+    if (!isAlreadyExist) {
+      setState(() {
+        membersList.add({
+          "name": userMap!['name'],
+          "email": userMap!['email'],
+          "uid": userMap!['uid'],
+          "isAdmin": false,
+        });
+        userMap = null;
+      });
+    }
+  }
+
+  void onRemoveResultTap(int index) {
+    if (membersList[index]['uid'] != _auth.currentUser!.uid) {
+      setState(() {
+        membersList.removeAt(index);
+      });
+    }
+  }
+
+  void onAddMembers() async {
     await _firestore.collection('groups').doc(widget.groupChatId).update({
       "members": membersList,
+      "id": widget.groupChatId,
     });
-    await _firestore
-        .collection('users')
-        .doc(userMap!['uid'])
-        .collection('groups')
-        .doc(widget.groupChatId)
-        .set({"name": widget.name, "id": widget.groupChatId});
+
+    for (int i = 0; i < widget.membersList.length; i++) {
+      String uid = widget.membersList[i]['uid'];
+
+      await _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('groups')
+          .doc(widget.groupChatId)
+          .set({
+        "name": widget.name,
+        "id": widget.groupChatId,
+      });
+    }
   }
 
   @override
@@ -78,12 +118,28 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Members"),
+        title: Text("Add/Remove Members"),
       ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Flexible(
+              child: ListView.builder(
+                itemCount: membersList.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () => onRemoveResultTap(index),
+                    leading: Icon(Icons.account_circle),
+                    title: Text(membersList[index]['name']),
+                    subtitle: Text(membersList[index]['email']),
+                    trailing: Icon(Icons.close),
+                  );
+                },
+              ),
+            ),
             SizedBox(
               height: size.height / 20,
             ),
@@ -124,7 +180,7 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
             ),
             userMap != null
                 ? ListTile(
-                    onTap: onAddMembers,
+                    onTap: onResultTap,
                     leading: Icon(Icons.account_box),
                     title: Text(userMap!['name']),
                     subtitle: Text(userMap!['email']),
@@ -136,6 +192,10 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
           ],
         ),
       ),
+      floatingActionButton: membersList.length >= 2
+          ? FloatingActionButton(
+              child: Icon(Icons.save), onPressed: onAddMembers)
+          : SizedBox(),
     );
   }
 }

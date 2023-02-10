@@ -215,10 +215,10 @@ class _GroupInfoState extends State<GroupInfo> {
                               ),
                             ),
                             leading: Icon(
-                              Icons.add,
+                              Icons.edit,
                             ),
                             title: Text(
-                              "Add Members",
+                              "Add/Remove Members",
                               style: TextStyle(
                                 fontSize: size.width / 22,
                                 fontWeight: FontWeight.w500,
@@ -244,8 +244,7 @@ class _GroupInfoState extends State<GroupInfo> {
                               ),
                             ),
                             subtitle: Text(membersList[index]['email']),
-                            trailing: 
-                            Column(
+                            trailing: Column(
                               children: [
                                 Text(membersList[index]['isAdmin']
                                     ? "Admin"

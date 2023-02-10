@@ -15,6 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _password = TextEditingController();
   bool passToggle = true;
   bool isLoading = false;
+  bool passwordVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -76,12 +77,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: TextFormField(
-                        obscureText: true,
+                        obscureText: passwordVisible,
                         controller: _password,
                         decoration: InputDecoration(
                           labelText: "Password",
                           border: OutlineInputBorder(),
                           prefixIcon: Icon(Icons.lock),
+                          suffixIcon: IconButton(
+                            icon: Icon(passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off),
+                            onPressed: () {
+                              setState(() {
+                                passwordVisible = !passwordVisible;
+                              });
+                            },
+                          ),
                         ),
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -208,13 +219,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget field(Size size, String hintText, IconData icon,
-      TextEditingController cont, bool obscure) {
+  Widget field(
+      Size size, String hintText, IconData icon, TextEditingController cont) {
     return Container(
       height: size.height / 14,
       width: size.width / 1.1,
       child: TextField(
-        obscureText: obscure,
         controller: cont,
         decoration: InputDecoration(
           prefixIcon: Icon(icon),

@@ -16,6 +16,7 @@ class _CreateAccountState extends State<CreateAccount> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   bool isLoading = false;
+  bool passwordVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -92,12 +93,22 @@ class _CreateAccountState extends State<CreateAccount> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: TextFormField(
-                        obscureText: true,
+                        obscureText: passwordVisible,
                         controller: _password,
                         decoration: InputDecoration(
                           labelText: "Password",
                           border: OutlineInputBorder(),
                           prefixIcon: Icon(Icons.lock),
+                          suffixIcon: IconButton(
+                            icon: Icon(passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off),
+                            onPressed: () {
+                              setState(() {
+                                passwordVisible = !passwordVisible;
+                              });
+                            },
+                          ),
                         ),
                         validator: (value) {
                           if (value!.isEmpty) {

@@ -155,7 +155,7 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
                   decoration: InputDecoration(
                     hintText: "Search",
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(25),
                     ),
                   ),
                 ),

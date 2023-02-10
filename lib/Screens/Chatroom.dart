@@ -111,10 +111,19 @@ class ChatRoom extends StatelessWidget {
                     if (_auth.currentUser!.email == userMap['email'])
                       Text("You")
                     else
-                      Text(userMap['name']),
+                      Text(
+                        userMap['name'],
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
                     Text(
                       snapshot.data!['status'],
-                      style: TextStyle(fontSize: 14),
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontFamily: 'Poppins',
+                      ),
                     ),
                   ],
                 ),
@@ -155,35 +164,39 @@ class ChatRoom extends StatelessWidget {
                 },
               ),
             ),
-            Container(
-              height: size.height / 10,
-              width: size.width,
-              alignment: Alignment.center,
+            Center(
               child: Container(
-                height: size.height / 12,
-                width: size.width / 1.1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: size.height / 17,
-                      width: size.width / 1.3,
-                      child: TextField(
-                        controller: _message,
-                        decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              onPressed: () => getImage(),
-                              icon: Icon(Icons.photo),
-                            ),
-                            hintText: "Send Message",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            )),
+                height: size.height / 10,
+                width: size.width,
+                alignment: Alignment.center,
+                child: Container(
+                  height: size.height / 12,
+                  width: size.width / 1.1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: size.height / 15,
+                        width: size.width / 1.3,
+                        child: TextField(
+                          controller: _message,
+                          decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                onPressed: () => getImage(),
+                                icon: Icon(Icons.photo),
+                              ),
+                              hintText: "Type your message here..",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              )),
+                        ),
                       ),
-                    ),
-                    IconButton(
-                        icon: Icon(Icons.send), onPressed: onSendMessage),
-                  ],
+                      IconButton(
+                          icon: Icon(Icons.send),
+                          color: Colors.blue,
+                          onPressed: onSendMessage),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -195,24 +208,28 @@ class ChatRoom extends StatelessWidget {
 
   Widget messages(Size size, Map<String, dynamic> map, BuildContext context) {
     return map['type'] == "text"
-        ? Container(
-            width: size.width,
-            alignment: map['sendby'] == _auth.currentUser!.displayName
-                ? Alignment.centerRight
-                : Alignment.centerLeft,
+        ? Padding(
+            padding: const EdgeInsets.only(left: 130.0),
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 14),
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.blue,
-              ),
-              child: Text(
-                map['message'],
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
+              width: size.width,
+              alignment: map['sendby'] == _auth.currentUser!.displayName
+                  ? Alignment.centerRight
+                  : Alignment.centerLeft,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: Colors.blue,
+                ),
+                child: Text(
+                  map['message'],
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
               ),
             ),

@@ -233,11 +233,12 @@ class GroupChatRoom extends StatelessWidget {
                 ],
               )),
         );
-      } else if (chatMap['type'] == "img") {
+      }
+      if (chatMap['type'] == "img") {
         return Container(
           height: size.height / 2.5,
           width: size.width,
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 5),
           alignment: chatMap['sendby'] == _auth.currentUser!.displayName
               ? Alignment.centerRight
               : Alignment.centerLeft,
@@ -245,28 +246,37 @@ class GroupChatRoom extends StatelessWidget {
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => ShowImage(imageUrl: chatMap['message']))),
             child: Container(
-              height: size.height / 2.5,
-              width: size.width / 2,
-              decoration: BoxDecoration(border: Border.all()),
-              alignment: chatMap['message'] != "" ? null : Alignment.center,
-              child: chatMap['message'] != ""
-                  ? Image.network(
-                      chatMap['message'],
-                      fit: BoxFit.cover,
-                    )
-                  : CircularProgressIndicator(),
+              child: Column(
+                children: [
+                  Container(child: Text(chatMap['sendby'])),
+                  Container(
+                    height: size.height / 3.5,
+                    width: size.width / 2,
+                    decoration: BoxDecoration(border: Border.all(width: 2.0)),
+                    alignment:
+                        chatMap['message'] != "" ? null : Alignment.center,
+                    child: chatMap['message'] != ""
+                        ? Image.network(
+                            chatMap['message'],
+                            fit: BoxFit.cover,
+                          )
+                        : CircularProgressIndicator(),
+                  ),
+                ],
+              ),
             ),
           ),
         );
-      } else if (chatMap['type'] == "notify") {
+      }
+      if (chatMap['type'] == "notify") {
         return Container(
           width: size.width,
           alignment: Alignment.center,
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 14),
             margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(15),
               color: Colors.black38,
             ),
             child: Text(
@@ -274,7 +284,7 @@ class GroupChatRoom extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
           ),

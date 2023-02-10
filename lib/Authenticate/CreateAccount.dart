@@ -38,33 +38,12 @@ class _CreateAccountState extends State<CreateAccount> {
                     SizedBox(
                       height: size.height / 20,
                     ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: size.width / 0.5,
-                    ),
                     SizedBox(
-                      height: size.height / 50,
+                      height: size.height / 10,
                     ),
-                    Container(
-                      width: size.width / 1.1,
-                      child: Text(
-                        "Welcome",
-                        style: TextStyle(
-                          fontSize: 34,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: size.width / 1.1,
-                      child: Text(
-                        "Create Account to Continue!",
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                    Image(
+                      image: AssetImage('assets/img/logo.png'),
+                      height: 150,
                     ),
                     SizedBox(
                       height: size.height / 20,
@@ -142,11 +121,12 @@ class _CreateAccountState extends State<CreateAccount> {
                       child: GestureDetector(
                         onTap: () => Navigator.pop(context),
                         child: Text(
-                          "Login",
+                          "Already a user? Login here!",
                           style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 16,
+                            color: Colors.grey[700],
+                            fontSize: 14,
                             fontWeight: FontWeight.w500,
+                            fontFamily: 'Poppins',
                           ),
                         ),
                       ),
@@ -190,8 +170,16 @@ class _CreateAccountState extends State<CreateAccount> {
           height: size.height / 14,
           width: size.width / 1.2,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(25),
             color: Colors.blue,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5), //shadow color
+                spreadRadius: 2, // spread radius
+                blurRadius: 5, // shadow blur radius
+                offset: const Offset(0, 3), // changes position of shadow
+              ),
+            ],
           ),
           alignment: Alignment.center,
           child: Text(

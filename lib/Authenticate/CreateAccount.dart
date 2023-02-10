@@ -204,25 +204,25 @@ class _CreateAccountState extends State<CreateAccount> {
     );
   }
 
-  Widget field(Size size, String hintText, IconData icon,
-      TextEditingController cont, bool obscure) {
-    return Container(
-      height: size.height / 14,
-      width: size.width / 1.1,
-      child: TextField(
-        obscureText: obscure,
-        controller: cont,
-        decoration: InputDecoration(
-          prefixIcon: Icon(icon),
-          hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget field(Size size, String hintText, IconData icon,
+  //     TextEditingController cont, bool obscure) {
+  //   return Container(
+  //     height: size.height / 14,
+  //     width: size.width / 1.1,
+  //     child: TextField(
+  //       obscureText: obscure,
+  //       controller: cont,
+  //       decoration: InputDecoration(
+  //         prefixIcon: Icon(icon),
+  //         hintText: hintText,
+  //         hintStyle: TextStyle(color: Colors.grey),
+  //         border: OutlineInputBorder(
+  //           borderRadius: BorderRadius.circular(10),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
 
 String? validateEmail(String? value) {

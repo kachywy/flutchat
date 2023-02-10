@@ -32,24 +32,12 @@ class _SendResetPasswordState extends State<SendResetPassword> {
                   SizedBox(
                     height: size.height / 20,
                   ),
-                  // Container(
-                  //   alignment: Alignment.centerLeft,
-                  //   width: size.width / 0.5,
-                  //   child: IconButton(
-                  //       icon: Icon(Icons.arrow_back_ios), onPressed: () {}),
-                  // ),
                   SizedBox(
-                    height: size.height / 50,
+                    height: size.height / 10,
                   ),
-                  Container(
-                    width: size.width / 1.1,
-                    child: Text(
-                      "Forgot Password?",
-                      style: TextStyle(
-                        fontSize: 34,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                  Image(
+                    image: AssetImage('assets/img/logo.png'),
+                    height: 150,
                   ),
                   Container(
                     width: size.width / 1.1,
@@ -57,13 +45,14 @@ class _SendResetPasswordState extends State<SendResetPassword> {
                       "Reset Password",
                       style: TextStyle(
                         color: Colors.grey[700],
-                        fontSize: 25,
+                        fontSize: 20,
                         fontWeight: FontWeight.w500,
+                        fontFamily: 'Poppins',
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: size.height / 10,
+                    height: size.height / 60,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 18.0),
@@ -74,26 +63,12 @@ class _SendResetPasswordState extends State<SendResetPassword> {
                     ),
                   ),
                   SizedBox(
-                    height: size.height / 10,
+                    height: size.height / 50,
                   ),
                   customButton(size),
                   SizedBox(
                     height: size.height / 40,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),
@@ -117,10 +92,18 @@ class _SendResetPasswordState extends State<SendResetPassword> {
       },
       child: Container(
           height: size.height / 14,
-          width: size.width / 1.2,
+          width: size.width / 5.2,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(25),
             color: Colors.blue,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5), //shadow color
+                spreadRadius: 2, // spread radius
+                blurRadius: 5, // shadow blur radius
+                offset: const Offset(0, 3), // changes position of shadow
+              ),
+            ],
           ),
           alignment: Alignment.center,
           child: Text(

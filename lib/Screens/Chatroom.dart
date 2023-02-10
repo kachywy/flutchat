@@ -137,6 +137,9 @@ class ChatRoom extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(
+              height: 10.0,
+            ),
             Container(
               height: size.height / 1.25,
               width: size.width,
@@ -208,28 +211,25 @@ class ChatRoom extends StatelessWidget {
 
   Widget messages(Size size, Map<String, dynamic> map, BuildContext context) {
     return map['type'] == "text"
-        ? Padding(
-            padding: const EdgeInsets.only(left: 130.0),
+        ? Container(
+            width: size.width,
+            alignment: map['sendby'] == _auth.currentUser!.displayName
+                ? Alignment.centerRight
+                : Alignment.centerLeft,
             child: Container(
-              width: size.width,
-              alignment: map['sendby'] == _auth.currentUser!.displayName
-                  ? Alignment.centerRight
-                  : Alignment.centerLeft,
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 14),
-                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: Colors.blue,
-                ),
-                child: Text(
-                  map['message'],
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white,
-                    fontFamily: 'Poppins',
-                  ),
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: Colors.blue,
+              ),
+              child: Text(
+                map['message'],
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                  fontFamily: 'Poppins',
                 ),
               ),
             ),

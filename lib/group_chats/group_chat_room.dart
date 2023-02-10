@@ -117,6 +117,9 @@ class GroupChatRoom extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(
+              height: 10.0,
+            ),
             Container(
               height: size.height / 1.27,
               width: size.width,

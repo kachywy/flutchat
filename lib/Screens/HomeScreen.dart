@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       style: TextStyle(fontFamily: 'Poppins'),
                       controller: _search,
                       decoration: InputDecoration(
-                        hintText: "Search",
+                        hintText: "Find People by Email",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),

@@ -151,6 +151,7 @@ class _AddMembersINGroupState extends State<AddMembersINGroup> {
                 height: size.height / 14,
                 width: size.width / 1.15,
                 child: TextField(
+                  keyboardType: TextInputType.emailAddress,
                   controller: _search,
                   decoration: InputDecoration(
                     hintText: "Search",
